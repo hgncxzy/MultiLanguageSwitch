@@ -12,22 +12,19 @@ import java.util.Locale
 /**
  * Created by xzy .
  */
-enum class LanguageType {
+enum class LanguageType(language: String?) {
 
     CHINESE("zh"),
     ENGLISH("en");
 
-    var language: String?
+    var language: String? = language
         get() {
             return field ?: ""
         }
 
-    constructor(language: String?) {
-        this.language = language
-    }
 }
 
-@Suppress("unused")
+@Suppress("unused", "DEPRECATION")
 object LanguageUtil {
     private val TAG = "LanguageUtil"
     var sharedPreferences: SharedPreferences? = null
@@ -52,10 +49,14 @@ object LanguageUtil {
     }
 
     private fun getLocaleByLanguage(language: String): Locale {
+        // default
         var locale = Locale.SIMPLIFIED_CHINESE
+        // chinese
         if (language == LanguageType.CHINESE.language) {
             locale = Locale.SIMPLIFIED_CHINESE
-        } else if (language == LanguageType.ENGLISH.language) {
+        }
+        // english
+        if (language == LanguageType.ENGLISH.language) {
             locale = Locale.ENGLISH
         }
         return locale
